@@ -8,13 +8,13 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
     paddingVertical: 14,
-    borderRadius: 6,
+    borderRadius: 15,
     borderWidth: 1,
     borderColor: colors.primary,
     marginVertical: 7,

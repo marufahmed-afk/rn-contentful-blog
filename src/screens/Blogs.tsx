@@ -55,7 +55,7 @@ const Blogs = ({ navigation }: Props) => {
     <FlatList
       style={styles.container}
       data={blogs}
-      keyExtractor={item => item.fields.id}
+      keyExtractor={item => item.sys.id}
       nestedScrollEnabled
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -64,10 +64,13 @@ const Blogs = ({ navigation }: Props) => {
         <BlogCard
           title={item.fields.title}
           subtitle={item.fields.subTitle}
+          by={item.sys.id}
+          // createdAt={item.sys.createdAt}
+          key={item.sys.id}
           // @ts-ignore
           // Disabling the next line because all the item.targets are valid - that data just
           // isn't getting picked up by TypeScript
-          onPress={() => navigation.navigate(item.target, { id: item.id })}
+          onPress={() => navigation.navigate('Blog', { id: item.sys.id })}
         />
       )}
     />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 import { Text } from './atoms/Text';
 import colors from '../constants/colors';
@@ -23,22 +24,35 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 180,
+    height: 170,
     // borderRadius: 10,
     marginBottom: 10,
   },
   textContainer: {
     paddingHorizontal: 10,
   },
+  flexed: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 });
 
 type BlogCardProps = {
   title: string;
   subtitle: string;
+  by: string;
+  createdAt?: string;
   onPress: () => void;
 };
 
-const BlogCard = ({ title, subtitle, onPress = () => null }: BlogCardProps) => {
+const BlogCard = ({
+  title,
+  subtitle,
+  by,
+  onPress = () => null,
+}: BlogCardProps) => {
   const rowStyles = [styles.row];
 
   return (
@@ -49,8 +63,22 @@ const BlogCard = ({ title, subtitle, onPress = () => null }: BlogCardProps) => {
           source={{ uri: 'https://picsum.photos/200' }}
         />
         <View style={styles.textContainer}>
-          <Text style={[styles.titleText]}>{title}</Text>
-          <Text>{subtitle}</Text>
+          <Text type="header" style={[styles.titleText]}>
+            {title}
+          </Text>
+          <Text style={[{ marginBottom: 10 }]}>{subtitle}</Text>
+          <View style={styles.flexed}>
+            <Text>{`By: ${by}`}</Text>
+            <View style={styles.flexed}>
+              <AntDesign
+                name="like1"
+                size={24}
+                color="black"
+                style={{ marginRight: 10 }}
+              />
+              <AntDesign name="dislike1" size={24} color="black" />
+            </View>
+          </View>
         </View>
       </View>
     </TouchableOpacity>

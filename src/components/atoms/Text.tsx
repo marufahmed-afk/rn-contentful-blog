@@ -10,19 +10,16 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: '600',
-    fontSize: 32,
-    marginBottom: 12,
+    fontSize: 24,
   },
   subHeaderText: {
     color: 'black',
-    fontSize: 20,
-    marginBottom: 12,
-    marginTop: -12, // assum this shows up under a headerText
+    fontSize: 18,
   },
   errorText: {
     color: colors.error,
     fontSize: 14,
-    marginBottom: 12,
+
     // marginLeft: 15,
   },
 });

@@ -7,6 +7,7 @@ import Blog from '../screens/Blog';
 export type MainStackParams = {
   Blogs: undefined;
   Blog: undefined;
+  AddBlog: undefined;
 };
 
 const MainStack = createStackNavigator<MainStackParams>();

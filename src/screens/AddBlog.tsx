@@ -1,12 +1,17 @@
 import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { Formik } from 'formik';
+import { StackNavigationProp } from '@react-navigation/stack';
 
+import { MainStackParams } from '../navigation/Main';
+
+import { clientCMA } from '../util/client';
 import colors from '../constants/colors';
 import { TextInput } from '../components/atoms/TextInput';
 import { Button } from '../components/atoms/Button';
 import { Text } from '../components/atoms/Text';
 import * as yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
 
 const addBlogValidationSchema = yup.object().shape({
   title: yup
@@ -28,15 +33,66 @@ const styles = StyleSheet.create({
   },
 });
 
-const AddBlog = () => {
+type AddBlogRef = {
+  title: string;
+  subTitle: string;
+  text: string;
+};
+
+type Props = {
+  navigation: StackNavigationProp<MainStackParams, 'Blogs'>;
+};
+
+const AddBlog = ({ navigation }: Props) => {
+  const createBlog = async (values: AddBlogRef) => {
+    clientCMA
+      .getSpace('4gdugyn6rciu')
+      .then((space: any) => space.getEnvironment('master'))
+      .then((environment: any) =>
+        environment.createEntry('blog', {
+          fields: {
+            title: {
+              'en-US': `${values.title}`,
+            },
+            subTitle: {
+              'en-US': `${values.subTitle}`,
+            },
+            text: {
+              'en-US': `${values.text}`,
+            },
+          },
+        }),
+      )
+      .then((entry: any) => entry.publish())
+      .then((entry: any) => {
+        console.log(`Entry ${entry.sys.id} published.`);
+      })
+      .catch(console.error);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Formik
         initialValues={{ title: '', subTitle: '', text: '' }}
-        onSubmit={values => console.log(values)}
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          // setSubmitting(true);
+          createBlog(values)
+            .then(() => {
+              resetForm();
+              navigation.navigate('Blogs');
+            })
+            .catch(console.error);
+        }}
         validationSchema={addBlogValidationSchema}
       >
-        {({ handleChange, handleSubmit, handleBlur, values, errors }) => (
+        {({
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          values,
+          errors,
+          isSubmitting,
+        }) => (
           <>
             <TextInput
               placeholder="Title"

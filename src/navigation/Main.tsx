@@ -1,35 +1,31 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { List } from '../screens/List';
-import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
+import Blogs from '../screens/Blogs';
+import Blog from '../screens/Blog';
 
 export type MainStackParams = {
-  List: undefined;
-  TextDemo: undefined;
-  FormDemo: undefined;
-  ButtonDemo: undefined;
+  Blogs: undefined;
+  Blog: undefined;
+  AddBlog: undefined;
 };
 
 const MainStack = createStackNavigator<MainStackParams>();
 
 export const Main = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen name="List" component={List} />
+  <MainStack.Navigator
+    screenOptions={{
+      headerTitleAlign: 'center',
+      headerStyle: { backgroundColor: 'white' },
+    }}
+  >
+    <MainStack.Screen name="Blogs" component={Blogs} />
     <MainStack.Screen
-      name="TextDemo"
-      component={TextDemo}
-      options={{ headerTitle: 'Text Demo' }}
-    />
-    <MainStack.Screen
-      name="FormDemo"
-      component={FormDemo}
-      options={{ headerTitle: 'Button Demo' }}
-    />
-    <MainStack.Screen
-      name="ButtonDemo"
-      component={ButtonDemo}
-      options={{ headerTitle: 'Button Demo' }}
+      name="Blog"
+      component={Blog}
+      options={({ route }: any) => ({
+        title: 'Blog ' + route.params?.id,
+      })}
     />
   </MainStack.Navigator>
 );

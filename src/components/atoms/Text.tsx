@@ -1,28 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text as RNText, StyleProp, TextStyle } from 'react-native';
 
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   text: {
-    color: colors.primary,
+    color: 'black',
     fontSize: 16,
   },
   headerText: {
     fontWeight: '600',
-    fontSize: 32,
-    marginBottom: 12,
+    fontSize: 24,
   },
   subHeaderText: {
-    color: colors.gray,
-    fontSize: 20,
-    marginBottom: 12,
-    marginTop: -12, // assum this shows up under a headerText
+    color: 'black',
+    fontSize: 18,
+  },
+  errorText: {
+    color: colors.error,
+    fontSize: 14,
+
+    // marginLeft: 15,
   },
 });
 
 type TextProps = {
-  type?: 'header' | 'subheader';
+  type?: 'header' | 'subheader' | 'error';
   children: string;
   style?: StyleProp<TextStyle>[];
 };
@@ -34,6 +37,8 @@ export const Text = ({ type, children, style = [] }: TextProps) => {
     textStyles.push(styles.headerText);
   } else if (type === 'subheader') {
     textStyles.push(styles.subHeaderText);
+  } else if (type === 'error') {
+    textStyles.push(styles.errorText);
   }
 
   textStyles = [...textStyles, ...style];

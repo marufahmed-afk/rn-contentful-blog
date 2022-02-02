@@ -11,7 +11,6 @@ import { TextInput } from '../components/atoms/TextInput';
 import { Button } from '../components/atoms/Button';
 import { Text } from '../components/atoms/Text';
 import * as yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
 
 const addBlogValidationSchema = yup.object().shape({
   title: yup
@@ -75,10 +74,10 @@ const AddBlog = ({ navigation }: Props) => {
       <Formik
         initialValues={{ title: '', subTitle: '', text: '' }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          // setSubmitting(true);
           createBlog(values)
             .then(() => {
               resetForm();
+              setSubmitting(false);
               navigation.navigate('Blogs');
             })
             .catch(console.error);
@@ -119,8 +118,11 @@ const AddBlog = ({ navigation }: Props) => {
               value={values.text}
             />
             {errors.text && <Text type="error">{errors.text}</Text>}
-
-            <Button onPress={handleSubmit}>Publish!</Button>
+            {isSubmitting ? (
+              'Loading...'
+            ) : (
+              <Button onPress={handleSubmit}>Publish!</Button>
+            )}
           </>
         )}
       </Formik>
